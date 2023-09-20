@@ -1,7 +1,14 @@
+using Booking_Room.Utils;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Add connect database
+builder.Services.AddDbContext<DBContext>(options =>
+    options.UseMySQL(builder.Configuration.GetConnectionString("MySqlConnection")));
 
 var app = builder.Build();
 
