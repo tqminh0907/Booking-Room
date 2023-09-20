@@ -1,0 +1,35 @@
+﻿@model List<Booking_Room.Models.Domain.RoomType>
+
+@{
+
+}
+
+<div class="card">
+    <div class="card-header">
+        <a class="btn btn-primary float-end dropdown-item"
+           asp-area=""
+           asp-controller="RoomType"
+           asp-action="Add">ADD</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var roomtype in Model)
+                    {
+                        <tr>
+                            <th scope="row">@roomtype.Id</th>
+                            <td>@roomtype.Name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
