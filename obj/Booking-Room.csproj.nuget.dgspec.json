@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Desktop\\booking\\Booking-Room\\Booking-Room.csproj": {}
+    "C:\\Users\\tqmin\\source\\repos\\Booking-Room\\Booking-Room.csproj": {}
   },
   "projects": {
-    "D:\\Desktop\\booking\\Booking-Room\\Booking-Room.csproj": {
+    "C:\\Users\\tqmin\\source\\repos\\Booking-Room\\Booking-Room.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Desktop\\booking\\Booking-Room\\Booking-Room.csproj",
+        "projectUniqueName": "C:\\Users\\tqmin\\source\\repos\\Booking-Room\\Booking-Room.csproj",
         "projectName": "Booking-Room",
-        "projectPath": "D:\\Desktop\\booking\\Booking-Room\\Booking-Room.csproj",
+        "projectPath": "C:\\Users\\tqmin\\source\\repos\\Booking-Room\\Booking-Room.csproj",
         "packagesPath": "C:\\Users\\tqmin\\.nuget\\packages\\",
-        "outputPath": "D:\\Desktop\\booking\\Booking-Room\\obj\\",
+        "outputPath": "C:\\Users\\tqmin\\source\\repos\\Booking-Room\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\tqmin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +39,22 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "MySql.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.5, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
