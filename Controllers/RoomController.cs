@@ -40,7 +40,7 @@ namespace Booking_Room.Controllers
 
         [HttpPost]
         [ActionName("Add")]
-        public IActionResult SubmitAdd() 
+        public IActionResult AddPost() 
         {
                
             string name = Request.Form["name"].ToString();
@@ -96,6 +96,38 @@ namespace Booking_Room.Controllers
             ViewBag.RoomTypes = roomtypes;
             ViewBag.Services = services;
             return View();
+        }
+
+        [HttpPost]
+        [ActionName("Edit")]
+        public IActionResult EditPost(int id)
+        {
+            var room = (from p in dbContext.Rooms where (p.Id == id) select p).FirstOrDefault();
+            dbContext.Rooms.Entry(room).Reference(x => x.RoomType).Load();
+            dbContext.Rooms.Entry(room).Collection(x => x.Services).Load();
+            if (room == null) {
+                return NotFound();
+            }
+
+            room.Name = Request.Form["name"].ToString();
+            room.Description = Request.Form["description"].ToString();
+            room.Price = Convert.ToInt32(Request.Form["price"]);
+            int roomtype_id = Convert.ToInt32(Request.Form["roomtype"]);
+            room.RoomType = dbContext.RoomTypes.Find(roomtype_id);
+            Array arr = Request.Form["services"].ToArray();
+            List<Service> services = new List<Service>();
+            for (int i = 0; i < arr.Length; i++)
+            {
+                var service = dbContext.Services.Find(Convert.ToInt32(arr.GetValue(i)));
+                services.Add(service);
+            }
+            
+            room.Services = services;
+
+            dbContext.Rooms.Update(room);
+            dbContext.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }
