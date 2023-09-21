@@ -1,0 +1,58 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<Booking_Room.Models.Domain.Room>
+@{
+}
+
+<div class="card">
+    <div class="card-header">
+        Rooms
+        <a class="btn btn-primary float-end"
+           asp-area=""
+           asp-controller="Room"
+           asp-action="Add">ADD</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">RoomType</th>
+                        <th scope="col">IsBooked</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        @foreach (var room in Model)
+                        {
+                            <tr>
+                                <th scope="row">@room.Id</th>
+                                <td>@room.Name</td>
+                                <td>@room.Description</td>
+                                <td>@room.Price</td>
+                                <td>@room.RoomType.Name</td>
+                                <td>@room.IsBooked</td>
+                                <td>
+                                    <a class="btn btn-danger" href="/Room/Delete/@room.Id">Delete</a>
+                                    <a class="btn btn-warning" href="/Room/Edit/@room.Id">Edit</a>
+                                </td>
+                            </tr>
+                        }
+                    } else
+                    {
+                        <tr>
+                            <td colspan="5">Empty</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

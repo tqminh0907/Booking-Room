@@ -1,0 +1,75 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+}
+
+<div class="bg-secondary bg-opacity-10 py-2">
+    <div class="container">
+        <h1>Edit Room</h1>
+        <form method="POST">
+            <div class="mb-3">
+                <label for="roomtype" class="form-label">Name</label>
+                <input type="text" class="form-control" name="name" id="roomtype" aria-describedby="roomtype" value="@ViewBag.Room.Name">
+            </div>
+            <div class="mb-3">
+                <label for="Description" class="form-label">Description</label>
+                <textarea type="text" class="form-control" name="description" id="Description" rows="3">@ViewBag.Room.Description</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <input type="text" class="form-control" name="price" id="price" aria-describedby="price" value="@ViewBag.Room.Price">
+            </div>
+            <div class="mb-3">
+                <label for="roomtype" class="form-label">RoomType</label>
+                <select class="form-select" name="roomtype" id="roomtype" aria-describedby="roomtype">
+                    @foreach (var roomtype in ViewBag.RoomTypes)
+                    {
+                        @if (ViewBag.Room.RoomType == roomtype)
+                        {
+                            <option value="@roomtype.Id" selected>@roomtype.Name</option>
+                        } else
+                        {
+                            <option value="@roomtype.Id">@roomtype.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="services" class="form-label">Services</label>
+                <select class="form-select" name="services" id="services" aria-describedby="services" multiple>
+                    @foreach (var service in ViewBag.Services)
+                    {
+                        {
+                            <option value="@service.Id">@service.Name - @service.Price</option>
+                        }
+                    }
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>arr = []</script>
+    @if (ViewBag.Room != null)
+    {
+        @foreach (var service in ViewBag.Room.Services)
+        {
+            <script>
+                arr.push(@service.Id);
+            </script>
+        }
+    }
+    <script>
+        $(document).ready(function () {
+            $('#services').select2();
+            $('#services').val(arr).trigger('change');
+        });
+    </script>
+    
+    
+}

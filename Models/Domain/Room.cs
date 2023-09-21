@@ -1,4 +1,6 @@
-﻿namespace Booking_Room.Models.Domain
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Booking_Room.Models.Domain
 {
     public class Room
     {
@@ -8,5 +10,6 @@
         public int Price { get; set; }
         public bool IsBooked { get; set; }
         public RoomType RoomType { get; set; }
+        public ICollection<Service>? Services { get; set; }
     }
 }

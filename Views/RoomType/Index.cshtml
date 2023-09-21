@@ -6,7 +6,8 @@
 
 <div class="card">
     <div class="card-header">
-        <a class="btn btn-primary float-end dropdown-item"
+        RoomTypes
+        <a class="btn btn-primary float-end"
            asp-area=""
            asp-controller="RoomType"
            asp-action="Add">ADD</a>
@@ -18,15 +19,20 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var roomtype in Model)
+                    @if(Model != null)
                     {
-                        <tr>
-                            <th scope="row">@roomtype.Id</th>
-                            <td>@roomtype.Name</td>
-                        </tr>
+                        @foreach (var roomtype in Model)
+                        {
+                            <tr>
+                                <th scope="row">@roomtype.Id</th>
+                                <td>@roomtype.Name</td>
+                                <td><a class="btn btn-danger" href="/RoomType/Delete/@roomtype.Id">Delete</a></td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>

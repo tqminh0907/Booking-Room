@@ -1,0 +1,51 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div class="card">
+    <div class="card-header">
+        Services
+        <a class="btn btn-primary float-end"
+           asp-area=""
+           asp-controller="Service"
+           asp-action="Add">ADD</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.Services != null)
+                    {
+                        @foreach (var service in ViewBag.Services)
+                        {
+                            <tr>
+                                <th scope="row">@service.Id</th>
+                                <td>@service.Name</td>
+                                <td>@service.Description</td>
+                                <td>@service.Price</td>
+                                <td><a class="btn btn-danger" href="/Room/Delete/@service.Id">Delete</a></td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td class="text-center" colspan="7">Empty</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
