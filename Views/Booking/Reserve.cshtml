@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Booking Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Booking: @ViewBag.room.Name</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-7">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="fullname" class="form-label float-start">Full Name</label>
+                        <input type="number" class="form-control" name="fullname" id="fullname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label float-start">Email</label>
+                        <input type="email" class="form-control" name="email" id="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label float-start">Phone</label>
+                        <input type="number" class="form-control" name="phone" id="phone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dates" class="form-label float-start">Start Date - End Date</label>
+                        <input type="text" class="form-control" name="dates" id="dates" placeholder="choose date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="adult" class="form-label float-start">Adult</label>
+                        <input type="number" class="form-control" name="adult" id="adult" value="0" required min="0">
+                    </div>
+                    <div class="mb-3">
+                        <label for="chilren" class="form-label float-start">Chilren</label>
+                        <input type="number" class="form-control" name="chilren" id="chilren" value="0" required min="0">
+                    </div>
+                    <button class="btn btn-primary text-uppercase float-end">Checkout</button>
+                </form>
+            </div>
+            <div class="col-5">
+                <div class="card p-2">
+                    <img class="card-img-top" src="https://www.thespruce.com/thmb/Yaz6mR23IBvAPvkviKYi1N6clLU=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/PAinteriors-7-cafe9c2bd6be4823b9345e591e4f367f.jpg">
+                    <h2 class="card-title text-start">@ViewBag.room.Name</h2>
+
+                    <div class="card-body">
+                        <div class="card-text text-start">roomtype: @ViewBag.room.RoomType.Name</div>
+                        <div class="card-text text-start">@ViewBag.room.Bed Beds</div>
+                        <div class="card-text text-start">
+                            @ViewBag.room.Description
+                        </div>
+                        <p class="card-text text-danger text-uppercase fw-bold float-end py-3">@ViewBag.room.Price đ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let date = new Date().toLocaleDateString();
+        $('input[name="dates"]').daterangepicker({
+            minDate: date,
+            autoApply: true,
+        });
+    </script>
+}

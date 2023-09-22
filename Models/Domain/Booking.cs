@@ -3,10 +3,10 @@
     public class Booking
     {
         public int Id { get; set; }
-        public string FullName { get; set; }
-        public int Phone { get; set; }
-        public string Email { get; set; }
-        public Room Room { get; set; }
+        public required string FullName { get; set; }
+        public required int Phone { get; set; }
+        public required string Email { get; set; }
+        public required Room Room { get; set; }
         public BookingDetail BookingDetail { get; set; }
     }
 }

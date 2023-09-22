@@ -19,9 +19,11 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">Id</th>
                         <th scope="col">Name</th>
                         <th scope="col">Description</th>
                         <th scope="col">Price</th>
+                        <th scope="col">Bed</th>
                         <th scope="col">RoomType</th>
                         <th scope="col">IsBooked</th>
                         <th scope="col">Action</th>
@@ -30,13 +32,17 @@
                 <tbody>
                     @if (Model != null)
                     {
+                        int i = 1;
                         @foreach (var room in Model)
                         {
+                            
                             <tr>
-                                <th scope="row">@room.Id</th>
+                                <th scope="row">@i</th>
+                                <td>@room.Id</td>
                                 <td>@room.Name</td>
                                 <td>@room.Description</td>
                                 <td>@room.Price</td>
+                                <td>@room.Bed</td>
                                 <td>@room.RoomType.Name</td>
                                 <td>@room.IsBooked</td>
                                 <td>
@@ -44,6 +50,7 @@
                                     <a class="btn btn-warning" href="/Room/Edit/@room.Id">Edit</a>
                                 </td>
                             </tr>
+                            i++;
                         }
                     } else
                     {

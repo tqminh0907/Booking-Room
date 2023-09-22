@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Booking_Room.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20230921062458_update migration")]
-    partial class updatemigration
+    [Migration("20230922013347_initial_migration")]
+    partial class initial_migration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,6 +37,38 @@ namespace Booking_Room.Migrations
                     b.ToTable("BookingDetailService");
                 });
 
+            modelBuilder.Entity("Booking_Room.Models.Domain.Booking", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("BookingDetailId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Phone")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoomId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookingDetailId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("Bookings");
+                });
+
             modelBuilder.Entity("Booking_Room.Models.Domain.BookingDetail", b =>
                 {
                     b.Property<int>("Id")
@@ -54,7 +86,25 @@ namespace Booking_Room.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BookingDetail");
+                    b.ToTable("BookingDetails");
+                });
+
+            modelBuilder.Entity("Booking_Room.Models.Domain.CustomerType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("price")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CustomerTypes");
                 });
 
             modelBuilder.Entity("Booking_Room.Models.Domain.Room", b =>
@@ -63,8 +113,10 @@ namespace Booking_Room.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int>("Bed")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<bool>("IsBooked")
@@ -109,7 +161,6 @@ namespace Booking_Room.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
@@ -121,7 +172,7 @@ namespace Booking_Room.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Service");
+                    b.ToTable("service");
                 });
 
             modelBuilder.Entity("RoomService", b =>
@@ -152,6 +203,25 @@ namespace Booking_Room.Migrations
                         .HasForeignKey("ServicesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Booking_Room.Models.Domain.Booking", b =>
+                {
+                    b.HasOne("Booking_Room.Models.Domain.BookingDetail", "BookingDetail")
+                        .WithMany()
+                        .HasForeignKey("BookingDetailId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Booking_Room.Models.Domain.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BookingDetail");
+
+                    b.Navigation("Room");
                 });
 
             modelBuilder.Entity("Booking_Room.Models.Domain.Room", b =>

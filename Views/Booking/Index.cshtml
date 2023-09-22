@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "Booking Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Booking</h1>
+    <div class="container">
+        <form method="POST">
+            <div class="row mt-5">
+                <div class="col">
+                    <label for="dates" class="form-label float-start">Start Date - End Date</label>
+                    <input type="text" class="form-control" name="dates" id="dates" placeholder="choose date">
+                </div>
+                <div class="col">
+                    <label for="roomtype" class="form-label float-start">Room Type</label>
+                    <select class="form-select" id="roomtype" name="roomtype">
+                        @foreach (var roomtype in ViewBag.RoomTypes)
+                        {
+                            <option value="@roomtype.Id">@roomtype.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="adult" class="form-label float-start">Adult</label>
+                    <input type="number" class="form-control" name="adult" id="adult">
+                </div>
+                <div class="col">
+                    <label for="chilren" class="form-label float-start">Chilren</label>
+                    <input type="number" class="form-control" name="chilren" id="chilren">
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary text-uppercase mt-3 mb-2" type="submit" >Update</button>
+                </div>
+            </div>
+            @if (ViewBag.Rooms != null)
+            {
+                <div class="row mt-5 row-cols-3 g-2">
+                
+                    @foreach(var room in ViewBag.Rooms)
+                    {
+                        <div class="col">
+                            <div class="card p-2" style="max-height: 600px">
+                                <img class="card-img-top" src="https://www.thespruce.com/thmb/Yaz6mR23IBvAPvkviKYi1N6clLU=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/PAinteriors-7-cafe9c2bd6be4823b9345e591e4f367f.jpg">
+                                <h2 class="card-title text-start">@room.Name</h2>
+                                
+                                <div class="card-body">
+                                    <div class="card-text text-start">roomtype: @room.RoomType.Name</div>
+                                    <div class="card-text text-start">@room.Bed Beds</div>
+                                    <div class="card-text text-start">
+                                        @room.Description
+                                    </div>
+                                    <p class="card-text text-danger text-uppercase fw-bold float-end py-3">@room.Price đ</p>
+                                </div>
+
+                                <div class="card-footer">
+
+                                    <a class="btn btn-primary text-uppercase float-end"
+                                        href="/Booking/Reserve/@room.Id">reserve</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let date = new Date().toLocaleDateString();
+        $('input[name="dates"]').daterangepicker({
+            minDate: date,
+            autoApply: true,
+        });
+    </script>
+}

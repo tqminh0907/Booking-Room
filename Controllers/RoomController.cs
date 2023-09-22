@@ -46,6 +46,7 @@ namespace Booking_Room.Controllers
             string name = Request.Form["name"].ToString();
             string description = Request.Form["description"].ToString();
             int price = Convert.ToInt32(Request.Form["price"]);
+            int bed = Convert.ToInt32(Request.Form["bed"]);
             int roomtype_id = Convert.ToInt32(Request.Form["roomtype"]);
             var roomtype = dbContext.RoomTypes.Find(roomtype_id);
             Array arr = Request.Form["services"].ToArray();
@@ -61,6 +62,7 @@ namespace Booking_Room.Controllers
                 Name = name,
                 Description = description,
                 Price = price,
+                Bed = bed,
                 RoomType = roomtype,
                 Services = services
             };
@@ -102,7 +104,7 @@ namespace Booking_Room.Controllers
         [ActionName("Edit")]
         public IActionResult EditPost(int id)
         {
-            var room = (from p in dbContext.Rooms where (p.Id == id) select p).FirstOrDefault();
+            var room = dbContext.Rooms.Find(id);
             dbContext.Rooms.Entry(room).Reference(x => x.RoomType).Load();
             dbContext.Rooms.Entry(room).Collection(x => x.Services).Load();
             if (room == null) {
@@ -112,6 +114,7 @@ namespace Booking_Room.Controllers
             room.Name = Request.Form["name"].ToString();
             room.Description = Request.Form["description"].ToString();
             room.Price = Convert.ToInt32(Request.Form["price"]);
+            room.Bed = Convert.ToInt32(Request.Form["bed"]);
             int roomtype_id = Convert.ToInt32(Request.Form["roomtype"]);
             room.RoomType = dbContext.RoomTypes.Find(roomtype_id);
             Array arr = Request.Form["services"].ToArray();

@@ -18,6 +18,7 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -25,13 +26,16 @@
                 <tbody>
                     @if(Model != null)
                     {
+                        int i = 1;
                         @foreach (var roomtype in Model)
                         {
                             <tr>
-                                <th scope="row">@roomtype.Id</th>
+                                <th scope="row">@i</th>
+                                <td>@roomtype.Id</td>
                                 <td>@roomtype.Name</td>
                                 <td><a class="btn btn-danger" href="/RoomType/Delete/@roomtype.Id">Delete</a></td>
                             </tr>
+                            i++;
                         }
                     }
                 </tbody>

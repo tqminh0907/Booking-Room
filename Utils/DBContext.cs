@@ -13,5 +13,7 @@ namespace Booking_Room.Utils
         public DbSet<RoomType> RoomTypes { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<BookingDetail> BookingDetails { get; set; }
+        public DbSet<CustomerType> CustomerTypes { get; set; }
     }
 }

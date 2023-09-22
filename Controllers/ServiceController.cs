@@ -37,8 +37,8 @@ namespace Booking_Room.Controllers
         [ActionName("Add")]
         public IActionResult SubmitAdd()
         {
-            string name = Request.Form["name"];
-            string description = Request.Form["description"];
+            string name = Request.Form["name"].ToString();
+            string description = Request.Form["description"].ToString();
             int price = Convert.ToInt32(Request.Form["price"]);
 
             Service service = new Service()
@@ -50,6 +50,38 @@ namespace Booking_Room.Controllers
 
             dbContext.Services.Add(service);
             dbContext.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            Service service = dbContext.Services.Find(id);
+
+            dbContext.Services.Entry(service).Collection(x =>x.Rooms).Load();
+
+            ViewBag.Service = service;
+            return View();
+        }
+
+        [HttpPost]
+        [ActionName("Edit")]
+        public IActionResult EditPost(int id)
+        {
+            var service = dbContext.Services.Find(id);
+            dbContext.Services.Entry(service).Collection(x => x.Rooms).Load();
+            if (service == null)
+            {
+                return NotFound();
+            }
+
+            service.Name = Request.Form["name"].ToString();
+            service.Description = Request.Form["description"].ToString();
+            service.Price = Convert.ToInt32(Request.Form["price"]);
+      
+            dbContext.Services.Update(service);
+            dbContext.SaveChanges();
+
             return RedirectToAction("Index");
         }
     }

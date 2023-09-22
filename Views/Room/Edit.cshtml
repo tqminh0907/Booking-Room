@@ -15,11 +15,15 @@
             </div>
             <div class="mb-3">
                 <label for="Description" class="form-label">Description</label>
-                <textarea type="text" class="form-control" name="description" id="Description" rows="3">@ViewBag.Room.Description</textarea>
+                <textarea class="form-control" name="description" id="Description" rows="3">@ViewBag.Room.Description</textarea>
             </div>
             <div class="mb-3">
                 <label for="price" class="form-label">Price</label>
-                <input type="text" class="form-control" name="price" id="price" aria-describedby="price" value="@ViewBag.Room.Price">
+                <input type="number" class="form-control" name="price" id="price" aria-describedby="price" value="@ViewBag.Room.Price">
+            </div>
+            <div class="mb-3">
+                <label for="bed" class="form-label">Bed Number</label>
+                <input type="number" class="form-control" name="bed" id="bed" aria-describedby="bed" value="@ViewBag.Room.Bed">
             </div>
             <div class="mb-3">
                 <label for="roomtype" class="form-label">RoomType</label>

@@ -18,6 +18,7 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Description</th>
                         <th scope="col">Price</th>
@@ -27,15 +28,21 @@
                 <tbody>
                     @if (ViewBag.Services != null)
                     {
+                        int i = 1;
                         @foreach (var service in ViewBag.Services)
                         {
                             <tr>
                                 <th scope="row">@service.Id</th>
+                                <td>@service.Id</td>
                                 <td>@service.Name</td>
                                 <td>@service.Description</td>
                                 <td>@service.Price</td>
-                                <td><a class="btn btn-danger" href="/Room/Delete/@service.Id">Delete</a></td>
+                                <td>
+                                    <a class="btn btn-danger" href="/Service/Delete/@service.Id">Delete</a>
+                                    <a class="btn btn-warning" href="/Service/Edit/@service.Id">Edit</a>
+                                </td>
                             </tr>
+                            i++;
                         }
                     }
                     else
