@@ -7,43 +7,12 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace Booking_Room.Migrations
 {
     /// <inheritdoc />
-    public partial class initial_migration : Migration
+    public partial class initmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "BookingDetails",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    startDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    endDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Total = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BookingDetails", x => x.Id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "CustomerTypes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: false),
-                    price = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CustomerTypes", x => x.Id);
-                })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -84,9 +53,9 @@ namespace Booking_Room.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: true),
-                    Price = table.Column<int>(type: "int", nullable: false),
+                    RoomPrice = table.Column<int>(type: "int", nullable: false),
                     Bed = table.Column<int>(type: "int", nullable: false),
-                    IsBooked = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    ChilrenPrice = table.Column<int>(type: "int", nullable: false),
                     RoomTypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -102,51 +71,24 @@ namespace Booking_Room.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "BookingDetailService",
-                columns: table => new
-                {
-                    BookingDetailsId = table.Column<int>(type: "int", nullable: false),
-                    ServicesId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BookingDetailService", x => new { x.BookingDetailsId, x.ServicesId });
-                    table.ForeignKey(
-                        name: "FK_BookingDetailService_BookingDetails_BookingDetailsId",
-                        column: x => x.BookingDetailsId,
-                        principalTable: "BookingDetails",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BookingDetailService_service_ServicesId",
-                        column: x => x.ServicesId,
-                        principalTable: "service",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Bookings",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     FullName = table.Column<string>(type: "longtext", nullable: false),
-                    Phone = table.Column<int>(type: "int", nullable: false),
+                    Phone = table.Column<string>(type: "longtext", nullable: false),
                     Email = table.Column<string>(type: "longtext", nullable: false),
-                    RoomId = table.Column<int>(type: "int", nullable: false),
-                    BookingDetailId = table.Column<int>(type: "int", nullable: false)
+                    StartDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    AdultCount = table.Column<int>(type: "int", nullable: false),
+                    ChilrenCount = table.Column<int>(type: "int", nullable: false),
+                    Total = table.Column<int>(type: "int", nullable: false),
+                    RoomId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bookings", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Bookings_BookingDetails_BookingDetailId",
-                        column: x => x.BookingDetailId,
-                        principalTable: "BookingDetails",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Bookings_Rooms_RoomId",
                         column: x => x.RoomId,
@@ -181,20 +123,40 @@ namespace Booking_Room.Migrations
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_BookingDetailService_ServicesId",
-                table: "BookingDetailService",
-                column: "ServicesId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Bookings_BookingDetailId",
-                table: "Bookings",
-                column: "BookingDetailId");
+            migrationBuilder.CreateTable(
+                name: "BookingService",
+                columns: table => new
+                {
+                    BookingsId = table.Column<int>(type: "int", nullable: false),
+                    ServicesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookingService", x => new { x.BookingsId, x.ServicesId });
+                    table.ForeignKey(
+                        name: "FK_BookingService_Bookings_BookingsId",
+                        column: x => x.BookingsId,
+                        principalTable: "Bookings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BookingService_service_ServicesId",
+                        column: x => x.ServicesId,
+                        principalTable: "service",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_RoomId",
                 table: "Bookings",
                 column: "RoomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookingService_ServicesId",
+                table: "BookingService",
+                column: "ServicesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rooms_RoomTypeId",
@@ -211,25 +173,19 @@ namespace Booking_Room.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BookingDetailService");
-
-            migrationBuilder.DropTable(
-                name: "Bookings");
-
-            migrationBuilder.DropTable(
-                name: "CustomerTypes");
+                name: "BookingService");
 
             migrationBuilder.DropTable(
                 name: "RoomService");
 
             migrationBuilder.DropTable(
-                name: "BookingDetails");
-
-            migrationBuilder.DropTable(
-                name: "Rooms");
+                name: "Bookings");
 
             migrationBuilder.DropTable(
                 name: "service");
+
+            migrationBuilder.DropTable(
+                name: "Rooms");
 
             migrationBuilder.DropTable(
                 name: "RoomTypes");

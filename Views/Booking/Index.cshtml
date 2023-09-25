@@ -14,6 +14,7 @@
                 <div class="col">
                     <label for="roomtype" class="form-label float-start">Room Type</label>
                     <select class="form-select" id="roomtype" name="roomtype">
+                        <option value="null">Tất cả</option>
                         @foreach (var roomtype in ViewBag.RoomTypes)
                         {
                             <option value="@roomtype.Id">@roomtype.Name</option>
@@ -22,14 +23,14 @@
                 </div>
                 <div class="col">
                     <label for="adult" class="form-label float-start">Adult</label>
-                    <input type="number" class="form-control" name="adult" id="adult">
+                    <input type="number" class="form-control" name="adult" id="adult" value="0">
                 </div>
                 <div class="col">
                     <label for="chilren" class="form-label float-start">Chilren</label>
-                    <input type="number" class="form-control" name="chilren" id="chilren">
+                    <input type="number" class="form-control" name="chilren" id="chilren"  value="0">
                 </div>
                 <div class="col">
-                    <button class="btn btn-primary text-uppercase mt-3 mb-2" type="submit" >Update</button>
+                    <button class="btn btn-primary text-uppercase mt-3 mb-2" type="submit">Update</button>
                 </div>
             </div>
             @if (ViewBag.Rooms != null)
@@ -49,13 +50,12 @@
                                     <div class="card-text text-start">
                                         @room.Description
                                     </div>
-                                    <p class="card-text text-danger text-uppercase fw-bold float-end py-3">@room.Price đ</p>
                                 </div>
 
                                 <div class="card-footer">
 
                                     <a class="btn btn-primary text-uppercase float-end"
-                                        href="/Booking/Reserve/@room.Id">reserve</a>
+                                        href="/Booking/Reserve/@room.Id">Đặt ngay</a>
                                 </div>
                             </div>
                         </div>

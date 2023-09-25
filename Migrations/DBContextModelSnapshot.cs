@@ -19,19 +19,19 @@ namespace Booking_Room.Migrations
                 .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("BookingDetailService", b =>
+            modelBuilder.Entity("BookingService", b =>
                 {
-                    b.Property<int>("BookingDetailsId")
+                    b.Property<int>("BookingsId")
                         .HasColumnType("int");
 
                     b.Property<int>("ServicesId")
                         .HasColumnType("int");
 
-                    b.HasKey("BookingDetailsId", "ServicesId");
+                    b.HasKey("BookingsId", "ServicesId");
 
                     b.HasIndex("ServicesId");
 
-                    b.ToTable("BookingDetailService");
+                    b.ToTable("BookingService");
                 });
 
             modelBuilder.Entity("Booking_Room.Models.Domain.Booking", b =>
@@ -40,68 +40,41 @@ namespace Booking_Room.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("BookingDetailId")
+                    b.Property<int>("AdultCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChilrenCount")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Phone")
-                        .HasColumnType("int");
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<int>("RoomId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookingDetailId");
-
-                    b.HasIndex("RoomId");
-
-                    b.ToTable("Bookings");
-                });
-
-            modelBuilder.Entity("Booking_Room.Models.Domain.BookingDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("Total")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("endDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("startDate")
-                        .HasColumnType("datetime(6)");
-
                     b.HasKey("Id");
 
-                    b.ToTable("BookingDetails");
-                });
+                    b.HasIndex("RoomId");
 
-            modelBuilder.Entity("Booking_Room.Models.Domain.CustomerType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("price")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CustomerTypes");
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("Booking_Room.Models.Domain.Room", b =>
@@ -113,17 +86,17 @@ namespace Booking_Room.Migrations
                     b.Property<int>("Bed")
                         .HasColumnType("int");
 
+                    b.Property<int>("ChilrenPrice")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
-
-                    b.Property<bool>("IsBooked")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Price")
+                    b.Property<int>("RoomPrice")
                         .HasColumnType("int");
 
                     b.Property<int>("RoomTypeId")
@@ -187,11 +160,11 @@ namespace Booking_Room.Migrations
                     b.ToTable("RoomService");
                 });
 
-            modelBuilder.Entity("BookingDetailService", b =>
+            modelBuilder.Entity("BookingService", b =>
                 {
-                    b.HasOne("Booking_Room.Models.Domain.BookingDetail", null)
+                    b.HasOne("Booking_Room.Models.Domain.Booking", null)
                         .WithMany()
-                        .HasForeignKey("BookingDetailsId")
+                        .HasForeignKey("BookingsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -204,19 +177,11 @@ namespace Booking_Room.Migrations
 
             modelBuilder.Entity("Booking_Room.Models.Domain.Booking", b =>
                 {
-                    b.HasOne("Booking_Room.Models.Domain.BookingDetail", "BookingDetail")
-                        .WithMany()
-                        .HasForeignKey("BookingDetailId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Booking_Room.Models.Domain.Room", "Room")
                         .WithMany()
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("BookingDetail");
 
                     b.Navigation("Room");
                 });

@@ -9,30 +9,41 @@
             <div class="col-7">
                 <form method="POST">
                     <div class="mb-3">
-                        <label for="fullname" class="form-label float-start">Full Name</label>
-                        <input type="number" class="form-control" name="fullname" id="fullname" required>
+                        <label for="fullname" class="form-label float-start">Tên</label>
+                        <input type="text" class="form-control" name="fullname" id="fullname" required>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label float-start">Email</label>
                         <input type="email" class="form-control" name="email" id="email" required>
                     </div>
                     <div class="mb-3">
-                        <label for="phone" class="form-label float-start">Phone</label>
-                        <input type="number" class="form-control" name="phone" id="phone" required>
+                        <label for="phone" class="form-label float-start">Số điện thoại</label>
+                        <input type="text" class="form-control" name="phone" id="phone">
                     </div>
                     <div class="mb-3">
-                        <label for="dates" class="form-label float-start">Start Date - End Date</label>
+                        <label for="dates" class="form-label float-start">ngày bắt đầu - ngày kết thúc</label>
                         <input type="text" class="form-control" name="dates" id="dates" placeholder="choose date" required>
                     </div>
                     <div class="mb-3">
-                        <label for="adult" class="form-label float-start">Adult</label>
+                        <label for="adult" class="form-label float-start">Người lớn</label>
                         <input type="number" class="form-control" name="adult" id="adult" value="0" required min="0">
                     </div>
                     <div class="mb-3">
-                        <label for="chilren" class="form-label float-start">Chilren</label>
+                        <label for="chilren" class="form-label float-start">Trẻ em</label>
                         <input type="number" class="form-control" name="chilren" id="chilren" value="0" required min="0">
                     </div>
-                    <button class="btn btn-primary text-uppercase float-end">Checkout</button>
+                    <div class="mb-3">
+                        <label for="services" class="form-label">Dịch vụ phòng</label>
+                        <select class="form-select" name="services" id="services" aria-describedby="services" multiple>
+                            @foreach (var service in ViewBag.room.Services)
+                            {
+                                <option value="@service.Id">@service.Name - @service.Price</option>
+                            }
+                        </select>
+                    </div>
+                    <input type="hidden" name="total" value="0" id="total" />
+                    <input type="hidden" name="room" value="@ViewBag.Room.Id" id="room" />
+                    <button class="btn btn-primary text-uppercase float-end" type="submit">Checkout</button>
                 </form>
             </div>
             <div class="col-5">
@@ -46,7 +57,7 @@
                         <div class="card-text text-start">
                             @ViewBag.room.Description
                         </div>
-                        <p class="card-text text-danger text-uppercase fw-bold float-end py-3">@ViewBag.room.Price đ</p>
+                        <p class="card-text text-danger text-uppercase fw-bold float-end py-3" id="total_price">0 đ</p>
                     </div>
                 </div>
             </div>
@@ -56,10 +67,50 @@
 
 @section Scripts {
     <script>
-        let date = new Date().toLocaleDateString();
-        $('input[name="dates"]').daterangepicker({
-            minDate: date,
-            autoApply: true,
-        });
+        $(document).ready(() => {
+            var total = 0;
+
+            let date = new Date().toLocaleDateString();
+            $('input[name="dates"]').daterangepicker({
+                minDate: date,
+                autoApply: true,
+            });
+
+            $('#services').select2();
+            
+            
+            function resetTotal() {
+                var adult = parseInt($('#adult').val());
+                var chilren = parseInt($('#chilren').val());
+                var daterange = $('#dates').val();
+                total = adult * 15000 + chilren * 20000 + @ViewBag.room.RoomPrice;
+                $('#total').text(total);
+            }
+
+            $('#adult,#chilren,#services,#dates').on('change', () => {
+
+                var adult = parseInt($('#adult').val());
+                var chilren = parseInt($('#chilren').val());
+                var services = $('#services').val();
+                var dates = $('#dates').val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Booking/MatchTotal",
+                    data: {
+                        room: @ViewBag.Room.Id,
+                        adult: adult,
+                        chilren: chilren,
+                        services: services,
+                        dates: dates
+                    },
+                    success: (data) => {
+                        $('#total_price').text(data.value);
+                        $('#total').val(data.value);
+                    }
+
+                })
+            })
+        })
     </script>
 }

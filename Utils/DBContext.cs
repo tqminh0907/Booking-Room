@@ -6,14 +6,13 @@ namespace Booking_Room.Utils
     public class DBContext : DbContext
     {
         public DBContext(DbContextOptions options) : base(options)
-        { 
+        {
+
         }
 
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomType> RoomTypes { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Booking> Bookings { get; set; }
-        public DbSet<BookingDetail> BookingDetails { get; set; }
-        public DbSet<CustomerType> CustomerTypes { get; set; }
     }
 }

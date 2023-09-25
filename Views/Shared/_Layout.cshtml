@@ -30,16 +30,17 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Booking" asp-action="Index">Booking</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Booking" asp-action="Index">Đặt phòng</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Admin
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-area="" asp-controller="RoomType" asp-action="Index">RoomTypes</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Room" asp-action="Index">Rooms</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-controller="Service" asp-action="Index">Services</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="AdminBooking" asp-action="Index">Booking</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="RoomType" asp-action="Index">Loại phòng</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Room" asp-action="Index">Phòng</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Service" asp-action="Index">Dịch vụ</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -63,7 +64,6 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <!-- Date range picker -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 

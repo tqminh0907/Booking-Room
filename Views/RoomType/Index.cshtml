@@ -6,7 +6,7 @@
 
 <div class="card">
     <div class="card-header">
-        RoomTypes
+        Loại phòng
         <a class="btn btn-primary float-end"
            asp-area=""
            asp-controller="RoomType"
@@ -33,7 +33,7 @@
                                 <th scope="row">@i</th>
                                 <td>@roomtype.Id</td>
                                 <td>@roomtype.Name</td>
-                                <td><a class="btn btn-danger" href="/RoomType/Delete/@roomtype.Id">Delete</a></td>
+                                <td><a class="btn btn-danger" href="/RoomType/Delete/@roomtype.Id">Xóa</a></td>
                             </tr>
                             i++;
                         }

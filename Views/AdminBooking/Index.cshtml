@@ -1,0 +1,72 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<Booking_Room.Models.Domain.Room>
+@{
+}
+
+<div class="card">
+    <div class="card-header">
+        Bookings
+        <a class="btn btn-primary float-end"
+           asp-area=""
+           asp-controller="AdminBooking"
+           asp-action="Add">ADD</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Id</th>
+                        <th scope="col">Room</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Adult</th>
+                        <th scope="col">Chilren</th>
+                        <th scope="col">Start Date</th>
+                        <th scope="col">End Date</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.Bookings != null)
+                    {
+                        int i = 1;
+                        @foreach (var booking in ViewBag.Bookings)
+                        {
+
+                            <tr>
+                                <th scope="row">@i</th>
+                                <td>@booking.Id</td>
+                                <td>@booking.Room.Name</td>
+                                <td>@booking.FullName</td>
+                                <td>@booking.Phone</td>
+                                <td>@booking.Email</td>
+                                <td>@booking.AdultCount</td>
+                                <td>@booking.ChilrenCount</td>
+                                <td>@booking.StartDate</td>
+                                <td>@booking.EndDate</td>
+                                <td>@booking.Total</td>
+                                <td>
+                                    <a class="btn btn-danger" href="/AdminBooking/Delete/@booking.Id">Delete</a>
+                                    <a class="btn btn-warning" href="/AdminBooking/Edit/@booking.Id">Edit</a>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5">Empty</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

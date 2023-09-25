@@ -33,7 +33,7 @@ namespace Booking_Room.Controllers
         [ActionName("Add")]
         public IActionResult SubmitAdd()
         {
-            string name = Request.Form["name"];
+            string name = Request.Form["name"].ToString();
 
             var roomtype = new RoomType { Name = name };
 

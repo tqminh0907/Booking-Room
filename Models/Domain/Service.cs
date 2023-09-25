@@ -10,6 +10,6 @@ namespace Booking_Room.Models.Domain
         public string? Description { get; set; }
         public required int Price { get; set; }
         public ICollection<Room>? Rooms { get; set; }
-        public ICollection<BookingDetail>? BookingDetails { get; set; }
+        public ICollection<Booking>? Bookings { get; set; }
     }
 }

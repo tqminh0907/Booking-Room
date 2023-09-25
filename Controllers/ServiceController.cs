@@ -21,7 +21,7 @@ namespace Booking_Room.Controllers
             var services = dbContext.Services.ToList();
             foreach (var service in services)
             {
-                dbContext.Entry(service).Collection(x => x.Rooms).Load();
+                dbContext.Entry(service).Collection(s => s.Rooms).Load();
             }
             ViewBag.Services = services;
             return View();
@@ -56,9 +56,11 @@ namespace Booking_Room.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            Service service = dbContext.Services.Find(id);
+            var service = dbContext.Services.Find(id);
 
-            dbContext.Services.Entry(service).Collection(x =>x.Rooms).Load();
+            if (service == null) return NotFound();
+
+            dbContext.Services.Entry(service).Collection(s => s.Rooms).Load();
 
             ViewBag.Service = service;
             return View();
@@ -69,7 +71,10 @@ namespace Booking_Room.Controllers
         public IActionResult EditPost(int id)
         {
             var service = dbContext.Services.Find(id);
-            dbContext.Services.Entry(service).Collection(x => x.Rooms).Load();
+            if (service == null) return NotFound();
+
+            dbContext.Services.Entry(service).Collection(s => s.Rooms).Load();
+
             if (service == null)
             {
                 return NotFound();

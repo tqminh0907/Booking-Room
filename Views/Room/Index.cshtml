@@ -7,7 +7,7 @@
 
 <div class="card">
     <div class="card-header">
-        Rooms
+        Phòng
         <a class="btn btn-primary float-end"
            asp-area=""
            asp-controller="Room"
@@ -22,10 +22,10 @@
                         <th scope="col">Id</th>
                         <th scope="col">Name</th>
                         <th scope="col">Description</th>
-                        <th scope="col">Price</th>
+                        <th scope="col">Room Price</th>
+                        <th scope="col">Chilren Price</th>
                         <th scope="col">Bed</th>
                         <th scope="col">RoomType</th>
-                        <th scope="col">IsBooked</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -41,10 +41,10 @@
                                 <td>@room.Id</td>
                                 <td>@room.Name</td>
                                 <td>@room.Description</td>
-                                <td>@room.Price</td>
+                                <td>@room.RoomPrice</td>
+                                <td>@room.ChilrenPrice</td>
                                 <td>@room.Bed</td>
                                 <td>@room.RoomType.Name</td>
-                                <td>@room.IsBooked</td>
                                 <td>
                                     <a class="btn btn-danger" href="/Room/Delete/@room.Id">Delete</a>
                                     <a class="btn btn-warning" href="/Room/Edit/@room.Id">Edit</a>
