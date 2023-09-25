@@ -1,9 +1,6 @@
 ﻿using Booking_Room.Models.Domain;
 using Booking_Room.Utils;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Session;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Booking_Room.Controllers
@@ -32,7 +29,13 @@ namespace Booking_Room.Controllers
         [ActionName("Index")]
         public IActionResult Search()
         {
+
             MatchCollection dates = RegexHandle.DateRangeSplit(Request.Form["dates"].ToString());
+            DateTime startDate = Convert.ToDateTime(dates[0].Value.ToString());
+            DateTime endDate = Convert.ToDateTime(dates[1].Value.ToString());
+
+            
+
             string roomtype_id = Request.Form["roomtype"].ToString();
             int rid = -1;
             if (roomtype_id != "null")
@@ -52,6 +55,15 @@ namespace Booking_Room.Controllers
             List<Room> result = new List<Room>();
             foreach (var room in rooms)
             {
+                // trả về trang index khi trùng ngày đặt
+                var bookings = dbContext.Bookings.Where(b => b.Room == room).ToList();
+                foreach (var book in bookings)
+                {
+                    if (book.StartDate <= startDate && book.EndDate >= startDate) return Redirect("/Booking/Index");
+                    if (book.StartDate <= endDate && book.EndDate >= endDate) return Redirect("/Booking/Index");
+                }
+                ////////////////////////////////////////
+
                 if (room.RoomType.Id == rid || rid == -1 && room.Bed >= total_customer)
                 {
                     result.Add(room);
@@ -71,17 +83,6 @@ namespace Booking_Room.Controllers
             if (room == null) return NotFound();
             dbContext.Rooms.Entry(room).Reference(r => r.RoomType).Load();
             dbContext.Rooms.Entry(room).Collection(r => r.Services).Load();
-            ViewBag.room = room;
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Checkout(int id)
-        {
-            var room = dbContext.Rooms.Find(id);
-            if (room == null) return NotFound();
-            dbContext.Rooms.Entry(room).Reference(x => x.RoomType).Load();
-            dbContext.Rooms.Entry(room).Collection(x => x.Services).Load();
             ViewBag.room = room;
             return View();
         }
@@ -120,15 +121,22 @@ namespace Booking_Room.Controllers
                 var service = dbContext.Services.Find(Convert.ToInt32(arr[i]));
                 services.Add(service);
             }
-            string name = Request.Form["name"].ToString();
+            string fullname = Request.Form["fullname"].ToString();
             string email = Request.Form["email"].ToString();
             string phone = Request.Form["phone"].ToString();
 
             int total = matchTotal(room, dates, adult, chilren, arr);
 
+            var bookings = dbContext.Bookings.Where(b => b.Room == room).ToList();
+            foreach(var book in bookings)
+            {
+                if (book.StartDate <= startDate && book.EndDate >= startDate) return Redirect("/Booking/Reserve/" + room.Id);
+                if (book.StartDate <= endDate && book.EndDate >= endDate) return Redirect("/Booking/Reserve/" + room.Id);
+            }
+
             Booking booking = new Booking()
             {
-                FullName = name,
+                FullName = fullname,
                 Email = email,
                 Phone = phone,
                 AdultCount = adult,
@@ -143,7 +151,7 @@ namespace Booking_Room.Controllers
             dbContext.Bookings.Add(booking);
             dbContext.SaveChanges();
 
-            return RedirectToAction("/Home/Index");
+            return Redirect("/Home/Index");
         }
 
         private int matchTotal(Room room, MatchCollection dates, int adult, int chilren, string?[] arr)

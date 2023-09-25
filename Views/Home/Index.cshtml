@@ -2,7 +2,68 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-start">
+    <h1>Ngày: @DateTime.Today.ToShortDateString()</h1>
+    <div class="container mb-3">
+        <h1>Phòng đã book</h1>
+        @if (ViewBag.checkin_rooms != null)
+        {
+            <div class="row mt-5 row-cols-3 g-2">
+
+                @foreach (var room in ViewBag.checkin_rooms)
+                {
+                    <div class="col">
+                        <div class="card p-2" style="max-height: 600px">
+                            <img class="card-img-top" src="https://www.thespruce.com/thmb/Yaz6mR23IBvAPvkviKYi1N6clLU=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/PAinteriors-7-cafe9c2bd6be4823b9345e591e4f367f.jpg">
+                            <h2 class="card-title text-start">@room.Name</h2>
+
+                            <div class="card-body">
+                                <div class="card-text text-start">@room.Bed Beds</div>
+                                <div class="card-text text-start">
+                                    @room.Description
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+
+                                <a class="btn btn-primary text-uppercase float-end"
+                                   href="/Booking/Reserve/@room.Id">Đặt ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+    <div class="container mb-3">
+        <h1>Phòng trả</h1>
+        @if (ViewBag.checkout_rooms != null)
+        {
+            <div class="row mt-5 row-cols-3 g-2">
+
+                @foreach (var room in ViewBag.checkout_rooms)
+                {
+                    <div class="col">
+                        <div class="card p-2" style="max-height: 600px">
+                            <img class="card-img-top" src="https://www.thespruce.com/thmb/Yaz6mR23IBvAPvkviKYi1N6clLU=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/PAinteriors-7-cafe9c2bd6be4823b9345e591e4f367f.jpg">
+                            <h2 class="card-title text-start">@room.Name</h2>
+
+                            <div class="card-body">
+                                <div class="card-text text-start">@room.Bed Beds</div>
+                                <div class="card-text text-start">
+                                    @room.Description
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+
+                                <a class="btn btn-primary text-uppercase float-end"
+                                   href="/Booking/Reserve/@room.Id">Đặt ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
 </div>
